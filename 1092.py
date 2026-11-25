@@ -1,24 +1,30 @@
 import sys
 
-n = int(sys.stdin.readline())
-MassLim = list(map(int, sys.stdin.readline().split()))
-m = int(sys.stdin.readline())
-Mass = list(map(int, sys.stdin.readline().split()))
+def solve():
+    input = sys.stdin.readline
 
-MassLim = sorted(MassLim)[::-1]
-Mass = sorted(Mass)[::-1]
-box = len(Mass)
-time = 0
-while box != 0:
-    for i in MassLim:
-        if Mass != []:
-            if i >= min(Mass):
-                for j in range(len(Mass)):
-                    if i >= Mass[j]:
-                        Mass.pop(j)
-                        box -= 1
-                        break
-        else:
-            break
-    time += 1
-print(time)
+    n = int(input())
+    C = sorted(map(int, input().split()), reverse=True)
+    m = int(input())
+    B = sorted(map(int, input().split()), reverse=True)
+
+    if B[0] > C[0]:
+        print(-1)
+        return
+
+    C.append(0)
+
+    ans = 0
+    idx = 0
+
+    for k in range(1, n + 1):
+        next_capacity = C[k]
+        while idx < m and B[idx] > next_capacity:
+            idx += 1
+
+        t = (idx + k - 1) // k
+        ans = max(ans, t)
+
+    print(ans)
+
+solve()
